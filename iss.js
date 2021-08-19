@@ -95,23 +95,31 @@ const fetchISSFlyOverTimes = function(coords, callback) {
       return;
     }
   
-    console.log('IP fetcher worked! Returned IP:' , ip, "\n");
+    //console.log('IP fetcher worked! Returned IP:' , ip, "\n");
   
     fetchCoordsByIP(ip, (error, data) => {
       if (error) {
         console.log("Coordinate fetcher didn't work!", error);
         return;
       }
-      console.log("Coordinate fetcher worked! Here are the coordinates:");
-      console.log(data, "\n");
+      // console.log("Coordinate fetcher worked! Here are the coordinates:");
+      // console.log(data, "\n");
   
       fetchISSFlyOverTimes(data, (error, times) => {
         if (error) {
           console.log("Flyover time fetcher didn't work!", error);
           return;
         }
-        console.log("Flyover time fetcher worked! Here are the times:");
-        console.log(times);
+        // console.log("Flyover time fetcher worked! Here are the times:");
+        // console.log(times);
+
+        for (const time of times) {
+          const duration = time.duration;
+          const risetime = time.risetime;
+          const date = new Date(0);
+          date.setUTCSeconds(risetime);
+          console.log(`Next pass at ${date} for ${duration} seconds!`);
+        }
       });
     });
   });
